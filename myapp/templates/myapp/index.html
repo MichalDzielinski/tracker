@@ -1,7 +1,91 @@
+
 {% extends 'myapp/base.html' %}
+{% load static %}
 
 {% block content %}
 
-    <h1>Hi</h1>
+    
+    <form method="post" class="shadow-lg m-10 rounded-lg">
+
+        {% csrf_token %}
+        <div class="form-container px-10 py-10 flex">
+            <div>
+                <div class="mb-5">
+                    <label>Expense Name</label>
+                </div>
+                <div class="border">
+                    {{expense_form.name}}
+                </div>
+            </div>
+            
+            <div class="mx-10">
+                <div class="mb-5">
+                    <label>Amount</label>
+                </div>
+                <div class="border ">
+                    {{expense_form.amount}}
+                </div>
+            </div>  
+
+            <div class="mx-10">
+                <div class="mb-5">
+                    <label>Category</label>
+                </div>
+                <div class="border ">
+                    {{expense_form.category}}
+                </div>
+            </div>
+
+            <div class="mx-10 mt-10">
+
+                <button class="bg-green-500 px-5 py-2 rounded-lg text-white font-bold">Add</button>
+            </div>
+
+
+
+
+        </div>
+        
+    </form>
+    <div>Expenses</div>
+    <div class="shadow-lg m-10 rounded-lg">
+        <div class="expense-header flex flex-wrap space-x-40">
+            <span>Name</span>
+            <span>Amount</span>
+            <span>Category</span>
+            <span>Date</span>
+            <span>Edit</span>
+            <span>Delete</span>
+        </div>
+        <hr class='mt-10'>
+    {% for ex in expenses %}
+        <div class="expense-row  flex flex-wrap px-20 py-5">
+            <span class="font-bold">{{ex.name}}</span>
+            <span class="font-bold">{{ex.amount}}</span>
+            <span class="font-bold">{{ex.category}}</span>
+            <span class="font-bold">{{ex.data}}</span>
+            <span class="font-bold"><a href="{% url 'edit' ex.id %}">
+                <img class="h-8" src="{% static 'myapp/images/pen_icon.png' %}" alt="">
+                </a></span>
+            <span class="font-bold">
+                <form action="{% url 'delete' ex.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="delete">
+                        <img class="h-8" src="{% static 'myapp/images/bin_icon.png' %}" alt="">
+                        </button>
+                </form>
+                
+            
+            </span>
+        </div>
+    {% endfor %}
+    </div>
+    
+        
+        {{ex.amount}}
+        {{ex.category}}
+        {{ex.date}}
+        <br>
+    
 
 {% endblock %}

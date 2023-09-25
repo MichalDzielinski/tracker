@@ -6,6 +6,9 @@ class Expense(models.Model):
     category = models.CharField(max_length=50)
     data = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ('-data',)
+
     def __str__(self):
         return self.name
 
